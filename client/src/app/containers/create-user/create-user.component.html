@@ -1,0 +1,56 @@
+<mat-toolbar class="toolbar" color="primary">
+    <div class="back-button">
+        <button [routerLink]="['/user-list']" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+            <mat-icon>keyboard_backspace</mat-icon>
+        </button>
+    </div>
+    <span>Create User</span>
+</mat-toolbar>
+<div class="container">
+    <div class="form-container mat-elevation-z8">
+        <form [formGroup]="userForm" (ngSubmit)="onUserFormSubmit()">
+            <div>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>First Name</mat-label>
+                  <input formControlName="first_name" matInput placeholder="First Name">
+                </mat-form-field>
+                <div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched)"
+                    class="alert alert-danger">
+                    <mat-error class="error" *ngIf="first_name.errors.required">
+                        First Name is required.
+                    </mat-error>
+                </div>
+            </div>
+            <div>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Last Name</mat-label>
+                  <input formControlName="last_name" matInput placeholder="Last Name">
+                </mat-form-field>
+                <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)"
+                    class="alert alert-danger">
+                    <mat-error class="error" *ngIf="last_name.errors.required">
+                        Last Name is required.
+                    </mat-error>
+                </div>
+            </div>
+            <div>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Email Address</mat-label>
+                  <input formControlName="email" matInput placeholder="Email Address">
+                </mat-form-field>
+                <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                    class="alert alert-danger">
+
+                    <mat-error class="error" *ngIf="email.errors.required">
+                        Email is required.
+                    </mat-error>
+                    <mat-error class="error" *ngIf="email.errors.email">
+                        Email format is not valid.
+                    </mat-error>
+                </div>
+            </div>
+
+            <button [disabled]="userForm.errors || !userForm.valid" mat-raised-button type="submit" color="primary" class="form-field submit">Submit</button>
+        </form>
+    </div>
+</div>

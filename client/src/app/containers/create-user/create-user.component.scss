@@ -1,0 +1,44 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5%;
+    height: calc(100% - 64px);
+}
+
+.toolbar {
+    padding-left: 5%;
+    span {
+        font-size: 24px;
+    }
+}
+.form-container{
+    height: 80%;
+    width: 90%;
+    min-height: 450px;
+    min-width: 280px;
+    max-width: 600px;
+    max-height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    form {
+        padding: 12px 0;
+        width: 80%;
+        min-width: 260px;
+        height: 90%;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-around;
+        .form-field{
+            width: 100%;
+            &.submit {
+                height: 48px;
+            }
+        }
+        .error{
+            position: relative;
+            top: -12px;
+        }
+    }
+}

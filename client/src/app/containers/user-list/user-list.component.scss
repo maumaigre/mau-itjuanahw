@@ -1,0 +1,33 @@
+table{
+    width: 100%;
+}
+
+.container{
+    padding: 3.5% 5%;
+}
+
+.toolbar {
+    padding-left: 5%;
+    span {
+        font-size: 24px;
+    }
+}
+
+.add-user-button{
+    position: fixed;
+    bottom: 3.5%;
+    right: 3.5%;
+    button{
+        width: 72px;
+        height: 72px;
+    }
+}
+.action-links{
+    .action {
+        cursor: pointer;
+        display: inline;
+        &:first-child{
+            margin-right: 8px;
+        }
+    }
+}
