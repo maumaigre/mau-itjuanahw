@@ -9,11 +9,11 @@
 <!--        <log>application.log</log> &lt;!&ndash; Optional : default java.log &ndash;&gt;-->
 <!--        <flushLevel>WARN</flushLevel> &lt;!&ndash; Optional : default ERROR &ndash;&gt;-->
 <!--    </appender>-->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
+<!--    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
     <root level="trace">
         <!-- Add Console output for local dev -->

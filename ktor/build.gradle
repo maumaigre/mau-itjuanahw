@@ -1,16 +1,16 @@
 buildscript {
     ext.kotlin_version = '1.4.10'
     ext.ktor_version = '1.4.2'
-    ext.appengine_version = '1.9.60'
-    ext.appengine_plugin_version = '2.1.0'
     ext.gce_logback_version = '0.117.0-alpha'
 
     repositories {
         mavenCentral()
+
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.20"
-        classpath "com.google.cloud.tools:appengine-gradle-plugin:$appengine_plugin_version"
+        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.1"
     }
 }
 
@@ -18,10 +18,8 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'war'
-apply plugin: 'com.google.cloud.tools.appengine'
-
-appengine.deploy.projectId = 'GCLOUD_CONFIG'
-appengine.deploy.version = 'GCLOUD_CONFIG'
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: 'application'
 
 sourceSets {
     main.kotlin.srcDirs = [ 'src/main/kotlin' ]
@@ -42,7 +40,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "io.ktor:ktor-server-servlet:$ktor_version"
     compile "io.ktor:ktor-html-builder:$ktor_version"
-    implementation "ch.qos.logback:logback-classic:$logback_version"
+//    implementation "ch.qos.logback:logback-classic:$logback_version"
 //    compile "com.google.cloud:google-cloud-logging-logback:$gce_logback_version"
     implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "io.ktor:ktor-server-core:$ktor_version"
@@ -53,11 +51,25 @@ dependencies {
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'com.github.jasync-sql:jasync-mysql:1.1.3'
     compile "io.ktor:ktor-server-servlet:$ktor_version"
-    providedCompile "com.google.appengine:appengine:$appengine_version"
     compile 'com.google.cloud:google-cloud-secretmanager:1.2.5'
     compile 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.2.0'
 }
 
 kotlin.experimental.coroutines = 'enable'
 
-task run(dependsOn: appengineRun)
+
+//mainClassName = "ApplicationKt"
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.example.ApplicationKt'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+shadowJar {
+    baseName = 'example'
+    classifier = null
+    version = null
+    mainClassName= "com.example.ApplicationKt"
+}

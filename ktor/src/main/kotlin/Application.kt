@@ -32,6 +32,9 @@ val connectionPool = createConnectionPool()
 fun Application.module() {
     println("STARTING ITJUANA HW PROJECT")
 
+    if (System.getenv("ITJ_ENV_MODE") == "dev"){
+        println("STARTED IN DOCKER/DEV MODE")
+    }
 
     if (connectionPool == null) {
         throw error("DB Connection Error: Missing database environment variables.")

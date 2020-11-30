@@ -11,27 +11,36 @@ import java.util.concurrent.TimeUnit
 fun createConnectionPool(): ConnectionPool<MySQLConnection>? {
 
     val envVarsSecrets: HashMap<String, String?> = hashMapOf(
-        "ITJ_DB_USER" to null,
-        "ITJ_DB_HOST" to null,
-        "ITJ_DB_PORT" to null,
-        "ITJ_DB_PASSWORD" to null,
-        "ITJ_DB_NAME" to null,
-        "ITJ_DB_INSTANCENAME" to null
+            "ITJ_DB_USER" to null,
+            "ITJ_DB_HOST" to null,
+            "ITJ_DB_PASSWORD" to null,
+            "ITJ_DB_NAME" to null,
+            "ITJ_DB_PORT" to null
     )
 
     val projectId = "tokyo-epoch-296923"
 
-    SecretManagerServiceClient.create().use { client ->
-        for ((key, _) in envVarsSecrets) {
-            val secretVersionName: SecretVersionName = SecretVersionName.of(projectId, key, "1")
+    println("CONNECTION IN: " + System.getenv("ITJ_ENV_MODE"))
+    if (System.getenv("ITJ_ENV_MODE") == "dev") {
+//      RUNNING IN DEV/DOCKER MODE, use system env vars
+        envVarsSecrets["ITJ_DB_USER"] = System.getenv("MYSQL_USER")!!
+        envVarsSecrets["ITJ_DB_HOST"] = System.getenv("MYSQL_HOST")
+        envVarsSecrets["ITJ_DB_PASSWORD"] = System.getenv("MYSQL_PASSWORD")!!
+        envVarsSecrets["ITJ_DB_NAME"] = System.getenv("MYSQL_DATABASE")!!
+    } else {
+        //      RUNNING IN PROD, use SecretManager from GCP
+        SecretManagerServiceClient.create().use { client ->
+            for ((key, _) in envVarsSecrets) {
+                val secretVersionName: SecretVersionName = SecretVersionName.of(projectId, key, "1")
 
-            val response = client.accessSecretVersion(secretVersionName);
+                val response = client.accessSecretVersion(secretVersionName);
 
-            val payload = response.payload.data.toStringUtf8()
-            if (payload == null || payload == "") {
-                return null
+                val payload = response.payload.data.toStringUtf8()
+                if (payload == null || payload == "") {
+                    return null
+                }
+                envVarsSecrets[key] = payload.toString()
             }
-            envVarsSecrets[key] = payload
         }
     }
 
