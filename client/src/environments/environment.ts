@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api_server: "https://tokyo-epoch-296923.wl.r.appspot.com"
+  api_server: "https://localhost:8081"
 };
 
 /*
