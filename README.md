@@ -5,33 +5,13 @@
 
 CRUD application for users with the following stack:
 
-  
-  
-
-**Back-End**
-
-___
-
 * Kotlin (+ Ktor framework)
 
 * jasync-SQL (DB Driver)
 
-  
-  
-
-**Front-End**
-
-___
-
 * Angular 11
 
 * Angular Material
-
-  
-
-**Cloud (Google Cloud Platform)**
-
-___
 
 * AppEngine
 
@@ -41,17 +21,11 @@ ___
 
 * Cloud SQL (Database server)
 
-  
-
-**DevOps**
-
 * Docker containers
 
 * Docker-compose
 
   
-  
-
 ## Build Instructions
 Make sure you have Git, Docker, Docker Compose installed and running
 
